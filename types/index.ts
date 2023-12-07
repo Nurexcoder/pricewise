@@ -1,0 +1,21 @@
+export type Product = {
+    id?: Number;
+    // url: string;
+    // currency: string;
+    image: string;
+    title: string;
+    price: number;
+    // currentPrice: number;
+    // originalPrice: number;
+    // priceHistory: PriceHistoryItem[] | [];
+    // highestPrice: number;
+    // lowestPrice: number;
+    // averagePrice: number;
+    // discountRate: number;
+    // description: string;
+    // category: string;
+    // reviewsCount: number;
+    // stars: number;
+    // isOutOfStock: Boolean;
+    // users?: User[];
+};
