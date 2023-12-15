@@ -1,11 +1,14 @@
 import HeroCourosel from "@/components/HeroCourosel";
 import ProductCard from "@/components/ProductCard";
 import Products from "@/components/ProductCard";
-import { allProducts } from "@/utils/constantdata";
+import SearchComponent from "@/components/SearchComponent";
+import { getAllProducts } from "@/lib/actions";
 import Image from "next/image";
 import React from "react";
 
-const Home = () => {
+const Home = async () => {
+  const allProducts = await getAllProducts();
+
   return (
     <>
       <section className="px-6 md:px-20 py-24  ">
@@ -28,10 +31,7 @@ const Home = () => {
               Powerful, self-serve product and growth analytics to help you
               convert, engage, and retain more.
             </p>
-            <div className="flex items-center gap-x-6">
-              <input className="searchbar-input" type="text" />
-              <button className="searchbar-btn">Search</button>
-            </div>
+            <SearchComponent />
           </div>
           <HeroCourosel />
         </div>
