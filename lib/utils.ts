@@ -1,11 +1,11 @@
 import { PriceHistoryItem, Product } from "@/types";
 
 const Notification = {
-  WELCOME: 'WELCOME',
-  CHANGE_OF_STOCK: 'CHANGE_OF_STOCK',
-  LOWEST_PRICE: 'LOWEST_PRICE',
-  THRESHOLD_MET: 'THRESHOLD_MET',
-}
+  WELCOME: "WELCOME",
+  CHANGE_OF_STOCK: "CHANGE_OF_STOCK",
+  LOWEST_PRICE: "LOWEST_PRICE",
+  THRESHOLD_MET: "THRESHOLD_MET",
+};
 
 const THRESHOLD_PERCENTAGE = 40;
 
@@ -14,20 +14,20 @@ export function extractPrice(...elements: any) {
   for (const element of elements) {
     const priceText = element.text().trim();
 
-    if(priceText) {
-      const cleanPrice = priceText.replace(/[^\d.]/g, '');
+    if (priceText) {
+      const cleanPrice = priceText.replace(/[^\d.]/g, "");
 
-      let firstPrice; 
+      let firstPrice;
 
       if (cleanPrice) {
         firstPrice = cleanPrice.match(/\d+\.\d{2}/)?.[0];
-      } 
+      }
 
       return firstPrice || cleanPrice;
     }
   }
 
-  return '';
+  return "";
 }
 
 // Extracts and returns the currency symbol from an element.
@@ -117,9 +117,40 @@ export const formatNumber = (num: number = 0) => {
   });
 };
 
-export const stringShortener = (str: string, length=20) => {
+export const stringShortener = (str: string, length = 20) => {
   if (str.length > length) {
-    return str.slice(0, length) + '...';
+    return str.slice(0, length) + "...";
   }
   return str;
+};
+export function formatIndianNumber(number: Number) {
+  // Convert the number to a string
+  let numberStr = number.toString();
+
+  // Split the number into integer and decimal parts
+  const parts = numberStr.split(".");
+
+  // Format the integer part with commas
+  const formattedInteger = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  // If there is a decimal part, append it to the formatted integer
+  const formattedNumber =
+    parts.length === 2 ? formattedInteger + "." + parts[1] : formattedInteger;
+
+  return formattedNumber;
+}
+
+export function formatUSNumber(number: Number) {
+  // Use toLocaleString to format the number with commas
+  const formattedNumber = number.toLocaleString("en-US");
+
+  return formattedNumber;
+}
+
+export function formatNumberBasedOnCurrency(number: Number, currency: string) {
+  if (currency === "₹") {
+    return "₹ " + formatIndianNumber(number);
+  } else {
+    return currency+" " + formatUSNumber(number);
+  }
 }

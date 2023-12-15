@@ -10,7 +10,7 @@ interface props {
 }
 const ProductCard = ({ product }: props) => {
   return (
-    <Link href={`/product/${product.id}`}>
+    <Link href={`/product/${product._id}`}>
       <div className="flex items-center flex-col gap-y-4">
         <div className=" bg-slate-200 p-4 group/item rounded">
           <Image
