@@ -24,15 +24,15 @@ const ProductCard = ({ product }: props) => {
             />
           </div>
         </div>
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full gap-2">
           <Tooltip title={product.title}>
-            <h4 className="text-2xl font-semibold">
+            <h4 className="text-xl font-semibold">
               {stringShortener(product.title, 20)}
             </h4>
           </Tooltip>
           <div className="flex justify-between items-center">
-            <p className="text-xl text-gray-400">General</p>
-            <p className="text-secondary">
+            <p className=" text-gray-400">General</p>
+            <p className="text-secondary text-base">
               {product.currency + " " + product.currentPrice}
             </p>
           </div>

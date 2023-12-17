@@ -56,7 +56,7 @@ export async function scrapeAmazonProduct(url: string) {
       image:imageUrls[0],
       currentPrice:Number(currentPrice)||Number(originalPrice),
       originalPrice:Number(originalPrice)||Number(currentPrice),
-      priceHistory:[],
+      priceHistory: [],
       discountRate:Number(discountRate),
       isOutOfStock,
       category:'category',

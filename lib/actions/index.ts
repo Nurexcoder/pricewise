@@ -30,12 +30,13 @@ export async function scrapeAndStoreProducts(productUrl: string) {
       product = {
         ...scrapedProduct,
         priceHistory: updatedProduct,
-        lowestPrice: getLowestPrice(updatedProduct),
-        highestPrice: getHighestPrice(updatedProduct),
-        averagePrice: getAveragePrice(updatedProduct),
+        lowestPrice: getLowestPrice(updatedProduct,scrapedProduct.lowestPrice),
+        highestPrice: getHighestPrice(updatedProduct,scrapedProduct.highestPrice),
+        averagePrice: getAveragePrice(updatedProduct,scrapedProduct.averagePrice),
         isOutOfStock: updatedProduct.isOutOfStock,
       };
     }
+   
     const newProduct = await Product.findOneAndUpdate(
       { url: scrapedProduct.url },
       product,

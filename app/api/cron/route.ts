@@ -8,7 +8,7 @@ import {
   getHighestPrice,
   getLowestPrice,
 } from "@/lib/utils";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -25,7 +25,7 @@ export async function GET() {
         const updatedProductPriceHistory: any = [
           ...currentProduct.priceHistory,
           {
-            price: scrapedProduct.currentPrice,
+            price: scrapedProduct?.currentPrice,
             date: new Date(),
           },
         ];
@@ -33,10 +33,10 @@ export async function GET() {
         product = {
           ...scrapedProduct,
           priceHistory: updatedProductPriceHistory,
-          lowestPrice: getLowestPrice(updatedProductPriceHistory),
-          highestPrice: getHighestPrice(updatedProductPriceHistory),
-          averagePrice: getAveragePrice(updatedProductPriceHistory),
-          isOutOfStock: updatedProductPriceHistory.isOutOfStock,
+          lowestPrice: getLowestPrice(updatedProductPriceHistory,currentProduct.lowestPrice),
+          highestPrice: getHighestPrice(updatedProductPriceHistory,currentProduct.highestPrice),
+          averagePrice: getAveragePrice(updatedProductPriceHistory,currentProduct.averagePrice),
+          isOutOfStock: scrapedProduct.isOutOfStock,
         };
         const updatedProduct = await Product.findOneAndUpdate(
           { url: scrapedProduct.url },
