@@ -7,10 +7,10 @@ export const NavIcons = [
         src: "/assets/icons/black-heart.svg",
         alt: "heart",
     },
-    {
-        src: "/assets/icons/user.svg",
-        alt: "user",
-    },
+    // {
+    //     src: "/assets/icons/user.svg",
+    //     alt: "user",
+    // },
 ];
 export const HeroImages = [
     {

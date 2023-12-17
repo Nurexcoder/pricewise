@@ -27,7 +27,7 @@ const Product = async ({ params: { id } }: Props) => {
   //   router.push('/404')
   // }
   const similarProducts = await getSimilarProducts(id);
-
+  // console.log("hi")
   return (
     <>
       <section className="px-6 md:px-20 my-10 grid gap-16">
@@ -109,9 +109,10 @@ const Product = async ({ params: { id } }: Props) => {
         <h3 className="text-xl font-semibold">Similar Products</h3>
         {/* <SimilarProducts /> */}
         <div className="flex flex-wrap  gap-x-10 gap-y-16">
-          {similarProducts?.map((product, index) => (
-            <ProductCard product={product} key={index} />
-          ))}
+          {similarProducts?.map((product ) => {
+            // product._id = product?._id?.toString()||"";
+            return <ProductCard product={product} key={product._id} />;
+          })}
         </div>
       </section>
     </>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 import { NavIcons } from "@/utils/constantdata";
+import NavUserComponent from "./NavUserComponent";
 
 const Navbar = () => {
   return (
@@ -20,9 +21,7 @@ const Navbar = () => {
           </p>
         </Link>
         <div className="flex items-center gap-5">
-          {NavIcons.map((icon) => (
-            <Image key={icon.alt} src={icon.src} alt={icon.alt} width={28} height={28} className="object-contain hover:scale-105 transition-all" />
-          ))}
+          <NavUserComponent />
         </div>
       </nav>
     </header>
