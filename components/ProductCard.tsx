@@ -1,4 +1,5 @@
-import React from "react";
+// "use client";
+import React, { useState } from "react";
 import { Product } from "@/types";
 import Image from "next/image";
 import { stringShortener } from "@/lib/utils";
@@ -11,15 +12,17 @@ interface props {
 const ProductCard = ({ product }: props) => {
   return (
     <Link href={`/product/${product._id}`}>
-      <div className="flex items-center flex-col gap-y-4">
+      <div className="flex items-center  flex-col gap-y-4">
         <div className=" bg-slate-200 p-4 group/item rounded">
-          <Image
-            src={product.image}
-            alt={product.title}
-            width={250}
-            height={250}
-            className="group-hover/item:scale-105 transition-all"
-          />
+          <div className="flex justify-center items-center p-4 bg-white">
+            <Image
+              src={product.image}
+              alt={product.title}
+              width={250}
+              height={250}
+              className="group-hover/item:scale-105 w-60 h-60 object-scale-down mix-blend-multiply transition-all"
+            />
+          </div>
         </div>
         <div className="flex flex-col w-full">
           <Tooltip title={product.title}>

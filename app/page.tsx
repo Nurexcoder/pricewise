@@ -38,7 +38,7 @@ const Home = async () => {
       </section>
       <section className="px-6 md:px-20 my-10 gap-20  w-full flex flex-col">
         <h3 className="text-4xl font-medium">Trending</h3>
-        <div className="flex flex-wrap  gap-x-10 gap-y-16">
+        <div className="flex flex-wrap  gap-x-10 gap-y-16 justify-center md:justify-start ">
           {allProducts.map((product) => (
             <ProductCard product={product} key={product.id} />
           ))}

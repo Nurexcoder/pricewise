@@ -5,11 +5,14 @@ import { CiBookmark, CiShare1, CiShare2 } from "react-icons/ci";
 import React, { useState } from "react";
 import { allProducts } from "@/utils/constantdata";
 import ProductCard from "@/components/ProductCard";
-import { getProductById } from "@/lib/actions";
+import { getProductById, getSimilarProducts } from "@/lib/actions";
 import HeartHoverButton from "@/components/global/HeartHoverButton";
 import { formatNumberBasedOnCurrency } from "@/lib/utils";
 import PriceInfoCard from "@/components/global/PriceInfoCard";
 import Link from "next/link";
+import TrackModal from "@/components/TrackModal";
+import SimilarProducts from "@/components/SimilarProducts";
+// import SimilarProducts from "@/components/SimilarProducts";
 
 type Props = {
   params: {
@@ -20,6 +23,7 @@ const Product = async ({ params: { id } }: Props) => {
   // const [isMouseHover, setIsMouseHover] = useState(false);
 
   const productData = await getProductById(id);
+  // const similarProducts = await getSimilarProducts(id);
 
   return (
     <>
@@ -31,7 +35,7 @@ const Product = async ({ params: { id } }: Props) => {
               alt="product image"
               width={450}
               height={400}
-              className="mx-auto h-auto group-hover/item:scale-105 transition-all "
+              className="mx-auto h-auto group-hover/item:scale-105 object-fit transition-all mix-blend-multiply "
             />
           </div>
           <div className="flex-1 p-4 flex flex-col">
@@ -76,9 +80,8 @@ const Product = async ({ params: { id } }: Props) => {
                 currency={productData.currency}
                 iconSrc="/assets/icons/arrow-down.svg"
               />
-              <button className="bg-gray-900 border-gray-900 hover:opacity-95 col-span-2 sm:col-span-4 p-4 text-white rounded-xl uppercase">
-                Track
-              </button>
+              <TrackModal productId={id} />
+              
             </div>
           </div>
         </div>
@@ -100,15 +103,8 @@ const Product = async ({ params: { id } }: Props) => {
           </div>
         </div>
       </section>
-      <section className="px-6 md:px-20 my-20 grid gap-16">
-        <h3 className="text-xl font-semibold">Similar Products</h3>
-        {/* <SimilarProducts /> */}
-        {/* <div className="flex flex-wrap  gap-x-10 gap-y-16">
-          {allProducts.map((product) => (
-            <ProductCard product={product} key={product.id} />
-          ))}
-        </div> */}
-      </section>
+      <SimilarProducts productId={id}  />
+      
     </>
   );
 };

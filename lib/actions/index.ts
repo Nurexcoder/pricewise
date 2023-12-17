@@ -6,6 +6,8 @@ import { connectToDB } from "../db";
 import { scrapeAmazonProduct } from "../scrapper";
 import Product from "../db/models/product.model";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
+import { User } from "@/types";
+import { generateEmailContent, sendMail } from "../nodemailer";
 
 export async function scrapeAndStoreProducts(productUrl: string) {
   if (!productUrl) return;
@@ -57,7 +59,7 @@ export async function getProductById(productId: string) {
   }
 }
 
-export async function getAllProducts(){
+export async function getAllProducts() {
   try {
     connectToDB();
     const products = await Product.find({});
@@ -66,4 +68,37 @@ export async function getAllProducts(){
     console.log(error);
     throw new Error("Failed to get products: " + error?.message);
   }
+}
+
+export async function getSimilarProducts(productId: string) {
+  try {
+    connectToDB();
+    const currentProduct = await Product.findById(productId);
+    if (!productId) return null;
+    const similarProducts = await Product.find({
+      _id: { $ne: productId },
+    }).limit(3).lean(true);
+    const similarProductsLean = similarProducts.map((product) => {
+      product._id = product._id?.toString();
+      return product;
+    });
+    return similarProductsLean;
+  } catch (error: any) {}
+}
+
+
+export async function addUserEmailToProduct(productId: string, userEmail: string) {
+  try {
+    connectToDB();
+    const currentProduct = await Product.findById(productId);
+    if (!productId) return;
+    const userExists = currentProduct?.users?.some((user:User) => user.email === userEmail);
+    if (!userExists) {
+      currentProduct.users.push({ email: userEmail });
+      await currentProduct.save();
+      const emailContent=await generateEmailContent(currentProduct,"WELCOME")
+      await sendMail(emailContent,[userEmail])
+      revalidatePath(`/product/${currentProduct?._id}`);
+    }
+  } catch (error: any) {}
 }
