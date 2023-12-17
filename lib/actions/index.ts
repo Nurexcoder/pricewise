@@ -57,7 +57,7 @@ export async function getProductById(productId: string) {
     console.log(error);
     throw new Error("Failed to get product: " + error?.message);
   }
-}
+} 
 
 export async function getAllProducts() {
   try {
