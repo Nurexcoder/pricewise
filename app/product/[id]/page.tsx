@@ -11,7 +11,7 @@ import { formatNumberBasedOnCurrency } from "@/lib/utils";
 import PriceInfoCard from "@/components/global/PriceInfoCard";
 import Link from "next/link";
 import TrackModal from "@/components/TrackModal";
-import SimilarProducts from "@/components/SimilarProducts";
+import { useRouter } from "next/navigation";
 // import SimilarProducts from "@/components/SimilarProducts";
 
 type Props = {
@@ -21,9 +21,12 @@ type Props = {
 };
 const Product = async ({ params: { id } }: Props) => {
   // const [isMouseHover, setIsMouseHover] = useState(false);
-
+  // const router = useRouter();
   const productData = await getProductById(id);
-  // const similarProducts = await getSimilarProducts(id);
+  // if(!productData) {
+  //   router.push('/404')
+  // }
+  const similarProducts = await getSimilarProducts(id);
 
   return (
     <>
@@ -81,7 +84,6 @@ const Product = async ({ params: { id } }: Props) => {
                 iconSrc="/assets/icons/arrow-down.svg"
               />
               <TrackModal productId={id} />
-              
             </div>
           </div>
         </div>
@@ -103,8 +105,15 @@ const Product = async ({ params: { id } }: Props) => {
           </div>
         </div>
       </section>
-      <SimilarProducts productId={id}  />
-      
+      <section className="px-6 md:px-20 my-20 grid gap-16">
+        <h3 className="text-xl font-semibold">Similar Products</h3>
+        {/* <SimilarProducts /> */}
+        <div className="flex flex-wrap  gap-x-10 gap-y-16">
+          {similarProducts?.map((product, index) => (
+            <ProductCard product={product} key={index} />
+          ))}
+        </div>
+      </section>
     </>
   );
 };

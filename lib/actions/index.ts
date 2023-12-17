@@ -77,27 +77,32 @@ export async function getSimilarProducts(productId: string) {
     if (!productId) return null;
     const similarProducts = await Product.find({
       _id: { $ne: productId },
-    }).limit(3).lean(true);
-    const similarProductsLean = similarProducts.map((product) => {
-      product._id = product._id?.toString();
-      return product;
-    });
-    return similarProductsLean;
+    })
+      .limit(3)
+    
+    return similarProducts || [];
   } catch (error: any) {}
 }
 
-
-export async function addUserEmailToProduct(productId: string, userEmail: string) {
+export async function addUserEmailToProduct(
+  productId: string,
+  userEmail: string
+) {
   try {
     connectToDB();
     const currentProduct = await Product.findById(productId);
     if (!productId) return;
-    const userExists = currentProduct?.users?.some((user:User) => user.email === userEmail);
+    const userExists = currentProduct?.users?.some(
+      (user: User) => user.email === userEmail
+    );
     if (!userExists) {
       currentProduct.users.push({ email: userEmail });
       await currentProduct.save();
-      const emailContent=await generateEmailContent(currentProduct,"WELCOME")
-      await sendMail(emailContent,[userEmail])
+      const emailContent = await generateEmailContent(
+        currentProduct,
+        "WELCOME"
+      );
+      await sendMail(emailContent, [userEmail]);
       revalidatePath(`/product/${currentProduct?._id}`);
     }
   } catch (error: any) {}
