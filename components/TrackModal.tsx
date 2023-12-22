@@ -1,15 +1,22 @@
 "use client";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import { addUserEmailToProduct } from "@/lib/actions";
+import { useSession } from "next-auth/react";
 type Props = {
-  productId: string
-}
-const TrackModal = ({productId}:Props) => {
+  productId: string;
+};
+const TrackModal = ({ productId }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState("");
+  const { status, data } = useSession();
+  useEffect(() => {
+    console.log(data);
+    if (isOpen && status === "authenticated") setEmail(data?.user?.email || "");
+  }, [isOpen]);
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -20,10 +27,9 @@ const TrackModal = ({productId}:Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await addUserEmailToProduct(productId,email);
+    await addUserEmailToProduct(productId, email);
     await setIsSubmitting(false);
     setIsOpen(false);
-
   };
 
   return (
@@ -110,6 +116,7 @@ const TrackModal = ({productId}:Props) => {
                         className="px-4 py-1 w-full outline-none "
                       />
                     </div>
+                    <div className="w-full"></div>
                     <button
                       type="submit"
                       className="bg-gray-900 border-gray-900 hover:opacity-95  p-4 text-white rounded-xl uppercase mt-4"
