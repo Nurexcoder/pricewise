@@ -116,7 +116,7 @@ const TrackModal = ({ productId }: Props) => {
                         className="px-4 py-1 w-full outline-none "
                       />
                     </div>
-                    <div className="w-full"></div>
+                    <div className="w-full flex"></div>
                     <button
                       type="submit"
                       className="bg-gray-900 border-gray-900 hover:opacity-95  p-4 text-white rounded-xl uppercase mt-4"
